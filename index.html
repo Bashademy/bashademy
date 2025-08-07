@@ -3,486 +3,119 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bashademy - Coming Soon</title>
-    <meta name="description" content="Bashademy - Coming Soon. Stay tuned for something amazing!">
-    
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
-    
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <style>
-        :root {
-            --primary: #6C63FF;
-            --secondary: #FF6584;
-            --accent: #00F5A0;
-            --dark: #1A1A2E;
-            --light: #FFFFFF;
-        }
-        
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-        
-        body {
-            font-family: 'Inter', sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-            position: relative;
-        }
-
-        /* Animated Background */
-        .bg-animation {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            z-index: -1;
-        }
-
-        .bg-animation::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4, #feca57);
-            background-size: 400% 400%;
-            animation: gradientShift 15s ease infinite;
-            opacity: 0.8;
-        }
-
-        @keyframes gradientShift {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
-        /* Floating Shapes */
-        .shape {
-            position: absolute;
-            opacity: 0.1;
-            animation: float 20s infinite linear;
-        }
-
-        .shape:nth-child(1) {
-            top: 20%;
-            left: 20%;
-            width: 80px;
-            height: 80px;
-            background: #fff;
-            border-radius: 50%;
-            animation-delay: 0s;
-        }
-
-        .shape:nth-child(2) {
-            top: 60%;
-            left: 80%;
-            width: 120px;
-            height: 120px;
-            background: #fff;
-            clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
-            animation-delay: -5s;
-        }
-
-        .shape:nth-child(3) {
-            top: 80%;
-            left: 10%;
-            width: 60px;
-            height: 60px;
-            background: #fff;
-            transform: rotate(45deg);
-            animation-delay: -10s;
-        }
-
-        .shape:nth-child(4) {
-            top: 10%;
-            left: 70%;
-            width: 100px;
-            height: 100px;
-            background: #fff;
-            border-radius: 20px;
-            animation-delay: -15s;
-        }
-
-        @keyframes float {
-            0% { transform: translateY(0px) rotate(0deg); }
-            33% { transform: translateY(-30px) rotate(120deg); }
-            66% { transform: translateY(30px) rotate(240deg); }
-            100% { transform: translateY(0px) rotate(360deg); }
-        }
-
-        /* Main Container */
-        .container {
-            text-align: center;
-            color: white;
-            z-index: 10;
-            padding: 2rem;
-            max-width: 600px;
-            width: 100%;
-        }
-
-        /* Logo Animation */
-        .logo {
-            font-size: 4rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-            background: linear-gradient(45deg, #fff, #f0f0f0);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            animation: logoGlow 3s ease-in-out infinite alternate;
-        }
-
-        @keyframes logoGlow {
-            from {
-                text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
-                transform: scale(1);
-            }
-            to {
-                text-shadow: 0 0 30px rgba(255, 255, 255, 0.8);
-                transform: scale(1.05);
-            }
-        }
-
-        /* Coming Soon Text */
-        .coming-soon {
-            font-size: 2rem;
-            font-weight: 600;
-            margin-bottom: 1rem;
-            opacity: 0;
-            animation: fadeInUp 1s ease 0.5s forwards;
-        }
-
-        .subtitle {
-            font-size: 1.2rem;
-            font-weight: 300;
-            margin-bottom: 3rem;
-            opacity: 0;
-            animation: fadeInUp 1s ease 1s forwards;
-            line-height: 1.6;
-        }
-
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* Contact Section */
-        .contact-section {
-            margin-bottom: 3rem;
-            opacity: 0;
-            animation: fadeInUp 1s ease 1.5s forwards;
-        }
-
-        .email-link {
-            display: inline-flex;
-            align-items: center;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            padding: 1rem 2rem;
-            border-radius: 50px;
-            color: white;
-            text-decoration: none;
-            font-weight: 500;
-            transition: all 0.3s ease;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            margin-bottom: 2rem;
-        }
-
-        .email-link:hover {
-            background: rgba(255, 255, 255, 0.2);
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-        }
-
-        .email-link i {
-            margin-right: 0.5rem;
-            font-size: 1.2rem;
-        }
-
-        /* Social Media Links */
-        .social-links {
-            display: flex;
-            justify-content: center;
-            gap: 1.5rem;
-            opacity: 0;
-            animation: fadeInUp 1s ease 2s forwards;
-        }
-
-        .social-link {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 60px;
-            height: 60px;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border-radius: 50%;
-            color: white;
-            text-decoration: none;
-            font-size: 1.5rem;
-            transition: all 0.3s ease;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .social-link::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-            transition: left 0.5s ease;
-        }
-
-        .social-link:hover::before {
-            left: 100%;
-        }
-
-        .social-link:hover {
-            background: rgba(255, 255, 255, 0.2);
-            transform: translateY(-5px) scale(1.1);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-        }
-
-        /* Pulse Animation */
-        .pulse {
-            position: relative;
-        }
-
-        .pulse::after {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 100%;
-            height: 100%;
-            border: 2px solid rgba(255, 255, 255, 0.5);
-            border-radius: 50%;
-            transform: translate(-50%, -50%);
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0% {
-                transform: translate(-50%, -50%) scale(1);
-                opacity: 1;
-            }
-            100% {
-                transform: translate(-50%, -50%) scale(1.5);
-                opacity: 0;
-            }
-        }
-
-        /* Loading Dots */
-        .loading-dots {
-            display: inline-flex;
-            gap: 0.5rem;
-            margin-left: 1rem;
-        }
-
-        .dot {
-            width: 8px;
-            height: 8px;
-            background: white;
-            border-radius: 50%;
-            animation: loadingDots 1.5s infinite ease-in-out;
-        }
-
-        .dot:nth-child(1) { animation-delay: 0s; }
-        .dot:nth-child(2) { animation-delay: 0.3s; }
-        .dot:nth-child(3) { animation-delay: 0.6s; }
-
-        @keyframes loadingDots {
-            0%, 80%, 100% {
-                transform: scale(0.8);
-                opacity: 0.5;
-            }
-            40% {
-                transform: scale(1.2);
-                opacity: 1;
-            }
-        }
-
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .logo {
-                font-size: 3rem;
-            }
-            
-            .coming-soon {
-                font-size: 1.5rem;
-            }
-            
-            .subtitle {
-                font-size: 1rem;
-            }
-            
-            .social-links {
-                gap: 1rem;
-            }
-            
-            .social-link {
-                width: 50px;
-                height: 50px;
-                font-size: 1.2rem;
-            }
-            
-            .container {
-                padding: 1rem;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .logo {
-                font-size: 2.5rem;
-            }
-            
-            .coming-soon {
-                font-size: 1.2rem;
-            }
-            
-            .email-link {
-                padding: 0.8rem 1.5rem;
-                font-size: 0.9rem;
-            }
-        }
-    </style>
+    <title>Waitlist Template</title>
+    <meta name="description" content="Fully featured Waitlist Template for startups and indie hackers.">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="bg-animation">
-        <div class="shape"></div>
-        <div class="shape"></div>
-        <div class="shape"></div>
-        <div class="shape"></div>
-    </div>
-
+    <canvas id="gradient-canvas"></canvas>
+    
     <div class="container">
-        <h1 class="logo">Bashademy</h1>
-        
-        <h2 class="coming-soon">
-            Coming Soon
-            <div class="loading-dots">
-                <div class="dot"></div>
-                <div class="dot"></div>
-                <div class="dot"></div>
-            </div>
-        </h2>
-        
-        <p class="subtitle">
-            We're cooking up something amazing! Stay tuned for our launch and follow us on social media for updates.
-        </p>
+        <div class="content-wrapper">
+            <!-- Header Navigation -->
+            <header class="header">
+                <nav class="navbar">
+                    <div class="nav-container">
+                        <div class="nav-background"></div>
+                        <a href="index.html" class="nav-link active" data-page="waitlist">Waitlist</a>
+                        <a href="manifesto.html" class="nav-link" data-page="manifesto">Manifesto</a>
+                    </div>
+                </nav>
+            </header>
 
-        <div class="contact-section">
-            <a href="mailto:hello@bashademy.com" class="email-link">
-                <i class="fas fa-envelope"></i>
-                hello@bashademy.com
-            </a>
-        </div>
+            <!-- Main Content -->
+            <main class="main-content">
+                <div class="waitlist-box">
+                    <div class="box-content">
+                        <!-- Logo -->
+                        <div class="logo-container">
+                            <div class="logo">
+                                <span class="logo-text">Bashademy</span>
+                            </div>
+                        </div>
 
-        <div class="social-links">
-            <a href="#" class="social-link pulse" aria-label="Twitter">
-                <i class="fab fa-twitter"></i>
-            </a>
-            <a href="#" class="social-link" aria-label="Instagram">
-                <i class="fab fa-instagram"></i>
-            </a>
-            <a href="#" class="social-link" aria-label="LinkedIn">
-                <i class="fab fa-linkedin-in"></i>
-            </a>
-            <a href="#" class="social-link" aria-label="GitHub">
-                <i class="fab fa-github"></i>
-            </a>
-            <a href="#" class="social-link" aria-label="Discord">
-                <i class="fab fa-discord"></i>
-            </a>
+                        <!-- Content -->
+                        <div class="content-section">
+                            <!-- Heading -->
+                            <div class="heading-section">
+                                <h1 class="main-title">Ready to Grow Digitally?</h1>
+                                <p class="subtitle">Be the first to know when we launch. Get early access and exclusive updates.</p>
+                            </div>
+
+                            <!-- Message Form -->
+                            <div class="form-container">
+                                <form id="messageForm" class="message-form">
+                                    <div class="form-group">
+                                        <textarea 
+                                            id="message" 
+                                            name="message" 
+                                            placeholder="Tell us about your digital growth goals..."
+                                            required
+                                            rows="4"
+                                        ></textarea>
+                                        <button type="submit" class="submit-btn" id="submitBtn">
+                                            <span class="btn-text">Send Message</span>
+                                            <div class="loading-spinner" style="display: none;"></div>
+                                        </button>
+                                    </div>
+                                    <div class="form-message" id="formMessage"></div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Footer -->
+                    <footer class="box-footer">
+                        <div class="social-links">
+                            <a href="https://facebook.com/bashademy" target="_blank" rel="noopener noreferrer" class="social-link">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                                </svg>
+                            </a>
+                            <a href="https://youtube.com/@bashademy" target="_blank" rel="noopener noreferrer" class="social-link">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                                </svg>
+                            </a>
+                            <a href="https://instagram.com/bashademy" target="_blank" rel="noopener noreferrer" class="social-link">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                                </svg>
+                            </a>
+                            <a href="https://tiktok.com/@bashademy" target="_blank" rel="noopener noreferrer" class="social-link">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/>
+                                </svg>
+                            </a>
+                            <a href="https://x.com/bashademy" target="_blank" rel="noopener noreferrer" class="social-link">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                                </svg>
+                            </a>
+                            <a href="https://github.com/bashademy" target="_blank" rel="noopener noreferrer" class="social-link">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                                </svg>
+                            </a>
+                        </div>
+                        <div class="theme-switcher">
+                            <button class="theme-btn active" data-theme="dark">dark</button>
+                            <span class="theme-separator">/</span>
+                            <button class="theme-btn" data-theme="system">system</button>
+                            <span class="theme-separator">/</span>
+                            <button class="theme-btn" data-theme="light">light</button>
+                        </div>
+                    </footer>
+                </div>
+            </main>
         </div>
     </div>
 
-    <script>
-        // Add some interactive effects
-        document.addEventListener('DOMContentLoaded', function() {
-            // Mouse movement parallax effect
-            document.addEventListener('mousemove', function(e) {
-                const shapes = document.querySelectorAll('.shape');
-                const x = e.clientX / window.innerWidth;
-                const y = e.clientY / window.innerHeight;
-                
-                shapes.forEach((shape, index) => {
-                    const speed = (index + 1) * 0.5;
-                    const xPos = (x - 0.5) * speed * 50;
-                    const yPos = (y - 0.5) * speed * 50;
-                    
-                    shape.style.transform = `translate(${xPos}px, ${yPos}px)`;
-                });
-            });
-
-            // Add click effect to social links
-            const socialLinks = document.querySelectorAll('.social-link');
-            socialLinks.forEach(link => {
-                link.addEventListener('click', function(e) {
-                    if (this.getAttribute('href') === '#') {
-                        e.preventDefault();
-                        
-                        // Create ripple effect
-                        const ripple = document.createElement('div');
-                        ripple.style.position = 'absolute';
-                        ripple.style.borderRadius = '50%';
-                        ripple.style.background = 'rgba(255, 255, 255, 0.6)';
-                        ripple.style.transform = 'scale(0)';
-                        ripple.style.animation = 'ripple 0.6s linear';
-                        ripple.style.left = '50%';
-                        ripple.style.top = '50%';
-                        ripple.style.width = '20px';
-                        ripple.style.height = '20px';
-                        ripple.style.marginLeft = '-10px';
-                        ripple.style.marginTop = '-10px';
-                        
-                        this.appendChild(ripple);
-                        
-                        setTimeout(() => {
-                            ripple.remove();
-                        }, 600);
-                    }
-                });
-            });
-        });
-
-        // Add ripple animation to CSS
-        const style = document.createElement('style');
-        style.textContent = `
-            @keyframes ripple {
-                to {
-                    transform: scale(4);
-                    opacity: 0;
-                }
-            }
-        `;
-        document.head.appendChild(style);
-    </script>
+    <script src="gradient.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>

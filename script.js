@@ -1,259 +1,168 @@
-// DOM Content Loaded
-document.addEventListener("DOMContentLoaded", () => {
-  // Mobile Navigation Toggle
-  const navToggle = document.getElementById("nav-toggle")
-  const navMenu = document.getElementById("nav-menu")
-
-  if (navToggle && navMenu) {
-    navToggle.addEventListener("click", () => {
-      navMenu.classList.toggle("active")
-      navToggle.classList.toggle("active")
-    })
-
-    // Close mobile menu when clicking on a link
-    const navLinks = document.querySelectorAll(".nav-link")
-    navLinks.forEach((link) => {
-      link.addEventListener("click", () => {
-        navMenu.classList.remove("active")
-        navToggle.classList.remove("active")
-      })
-    })
-  }
-
-  // Sticky Navigation
-  const navbar = document.getElementById("navbar")
-  let lastScrollTop = 0
-
-  window.addEventListener("scroll", () => {
-    const scrollTop = window.pageYOffset || document.documentElement.scrollTop
-
-    if (scrollTop > 100) {
-      navbar.classList.add("scrolled")
-    } else {
-      navbar.classList.remove("scrolled")
+// Theme management
+class ThemeManager {
+    constructor() {
+        this.theme = this.getStoredTheme() || 'dark';
+        this.init();
     }
 
-    lastScrollTop = scrollTop
-  })
-
-  // Smooth Scrolling for Anchor Links
-  const anchorLinks = document.querySelectorAll('a[href^="#"]')
-  anchorLinks.forEach((link) => {
-    link.addEventListener("click", function (e) {
-      e.preventDefault()
-      const targetId = this.getAttribute("href")
-      const targetElement = document.querySelector(targetId)
-
-      if (targetElement) {
-        const offsetTop = targetElement.offsetTop - 80
-        window.scrollTo({
-          top: offsetTop,
-          behavior: "smooth",
-        })
-      }
-    })
-  })
-
-  // Fade In Animation on Scroll
-  const observerOptions = {
-    threshold: 0.1,
-    rootMargin: "0px 0px -50px 0px",
-  }
-
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add("fade-in")
-      }
-    })
-  }, observerOptions)
-
-  // Observe elements for animation
-  const animateElements = document.querySelectorAll(
-    ".service-card, .testimonial-card, .value-card, .team-member, .faq-item",
-  )
-  animateElements.forEach((el) => {
-    observer.observe(el)
-  })
-
-  // Contact Form Validation and Submission
-  const contactForm = document.getElementById("contact-form")
-  if (contactForm) {
-    contactForm.addEventListener("submit", (e) => {
-      e.preventDefault()
-
-      // Clear previous errors
-      clearErrors()
-
-      // Get form data
-      const formData = new FormData(contactForm)
-      const name = formData.get("name").trim()
-      const email = formData.get("email").trim()
-      const message = formData.get("message").trim()
-
-      let isValid = true
-
-      // Validate name
-      if (!name) {
-        showError("name-error", "Name is required")
-        isValid = false
-      } else if (name.length < 2) {
-        showError("name-error", "Name must be at least 2 characters")
-        isValid = false
-      }
-
-      // Validate email
-      if (!email) {
-        showError("email-error", "Email is required")
-        isValid = false
-      } else if (!isValidEmail(email)) {
-        showError("email-error", "Please enter a valid email address")
-        isValid = false
-      }
-
-      // Validate message
-      if (!message) {
-        showError("message-error", "Message is required")
-        isValid = false
-      } else if (message.length < 10) {
-        showError("message-error", "Message must be at least 10 characters")
-        isValid = false
-      }
-
-      // If form is valid, show success message
-      if (isValid) {
-        showSuccessMessage()
-        contactForm.reset()
-      }
-    })
-  }
-
-  // Form validation helper functions
-  function showError(elementId, message) {
-    const errorElement = document.getElementById(elementId)
-    if (errorElement) {
-      errorElement.textContent = message
-      errorElement.style.display = "block"
+    init() {
+        this.applyTheme(this.theme);
+        this.setupThemeButtons();
+        this.setupNavigation();
+        this.setupForm();
     }
-  }
 
-  function clearErrors() {
-    const errorElements = document.querySelectorAll(".error-message")
-    errorElements.forEach((element) => {
-      element.textContent = ""
-      element.style.display = "none"
-    })
-  }
-
-  function isValidEmail(email) {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-    return emailRegex.test(email)
-  }
-
-  function showSuccessMessage() {
-    const successElement = document.getElementById("form-success")
-    if (successElement) {
-      successElement.classList.add("show")
-
-      // Hide success message after 5 seconds
-      setTimeout(() => {
-        successElement.classList.remove("show")
-      }, 5000)
+    getStoredTheme() {
+        return localStorage.getItem('theme');
     }
-  }
 
-  // Add hover effects to buttons
-  const buttons = document.querySelectorAll(".cta-button, .secondary-button")
-  buttons.forEach((button) => {
-    button.addEventListener("mouseenter", function () {
-      this.style.transform = "translateY(-2px)"
-    })
+    setStoredTheme(theme) {
+        localStorage.setItem('theme', theme);
+    }
 
-    button.addEventListener("mouseleave", function () {
-      this.style.transform = "translateY(0)"
-    })
-  })
+    getSystemTheme() {
+        return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    }
 
-  // Parallax effect for hero section
-  const hero = document.querySelector(".hero")
-  if (hero) {
-    window.addEventListener("scroll", () => {
-      const scrolled = window.pageYOffset
-      const rate = scrolled * -0.5
-      hero.style.transform = `translateY(${rate}px)`
-    })
-  }
-
-  // Counter animation for stats
-  const stats = document.querySelectorAll(".stat h3")
-  const statsObserver = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          animateCounter(entry.target)
-          statsObserver.unobserve(entry.target)
+    applyTheme(theme) {
+        const html = document.documentElement;
+        
+        if (theme === 'system') {
+            const systemTheme = this.getSystemTheme();
+            html.className = systemTheme;
+        } else {
+            html.className = theme;
         }
-      })
-    },
-    { threshold: 0.5 },
-  )
-
-  stats.forEach((stat) => {
-    statsObserver.observe(stat)
-  })
-
-  function animateCounter(element) {
-    const target = Number.parseInt(element.textContent)
-    const increment = target / 50
-    let current = 0
-
-    const timer = setInterval(() => {
-      current += increment
-      if (current >= target) {
-        element.textContent = target + (element.textContent.includes("%") ? "%" : "+")
-        clearInterval(timer)
-      } else {
-        element.textContent = Math.floor(current) + (element.textContent.includes("%") ? "%" : "+")
-      }
-    }, 40)
-  }
-
-  // Loading animation
-  window.addEventListener("load", () => {
-    document.body.classList.add("loaded")
-  })
-
-  // Add active class to current page navigation
-  const currentPage = window.location.pathname.split("/").pop() || "index.html"
-  const navLinks = document.querySelectorAll(".nav-link")
-
-  navLinks.forEach((link) => {
-    link.classList.remove("active")
-    if (
-      link.getAttribute("href") === currentPage ||
-      (currentPage === "" && link.getAttribute("href") === "index.html")
-    ) {
-      link.classList.add("active")
+        
+        this.theme = theme;
+        this.setStoredTheme(theme);
+        this.updateThemeButtons();
     }
-  })
-})
 
-// Utility function for debouncing scroll events
-function debounce(func, wait) {
-  let timeout
-  return function executedFunction(...args) {
-    const later = () => {
-      clearTimeout(timeout)
-      func(...args)
+    updateThemeButtons() {
+        const buttons = document.querySelectorAll('.theme-btn');
+        buttons.forEach(btn => {
+            btn.classList.toggle('active', btn.dataset.theme === this.theme);
+        });
     }
-    clearTimeout(timeout)
-    timeout = setTimeout(later, wait)
-  }
+
+    setupThemeButtons() {
+        const buttons = document.querySelectorAll('.theme-btn');
+        buttons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                this.applyTheme(btn.dataset.theme);
+            });
+        });
+
+        // Listen for system theme changes
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+            if (this.theme === 'system') {
+                this.applyTheme('system');
+            }
+        });
+    }
+
+    setupNavigation() {
+        // Update active nav link based on current page
+        const currentPage = window.location.pathname.includes('manifesto') ? 'manifesto' : 'waitlist';
+        const navLinks = document.querySelectorAll('.nav-link');
+        const navBackground = document.querySelector('.nav-background');
+        
+        navLinks.forEach((link, index) => {
+            const isActive = link.dataset.page === currentPage;
+            link.classList.toggle('active', isActive);
+            
+            if (isActive && navBackground) {
+                navBackground.style.left = `calc((${index} * 90px) + 4px)`;
+            }
+        });
+    }
+
+    setupForm() {
+        const form = document.getElementById('messageForm');
+        if (!form) return;
+
+        const submitBtn = document.getElementById('submitBtn');
+        const btnText = submitBtn.querySelector('.btn-text');
+        const spinner = submitBtn.querySelector('.loading-spinner');
+        const messageDiv = document.getElementById('formMessage');
+        const messageInput = document.getElementById('message');
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const message = messageInput.value.trim();
+            if (!message) {
+                this.showMessage('Please enter a message', 'error');
+                return;
+            }
+
+            // Show loading state
+            this.setLoadingState(true, submitBtn, btnText, spinner);
+            this.hideMessage();
+
+            try {
+                // Simulate form submission (replace with actual email service)
+                await this.simulateMessageSend(message);
+                
+                // Show success
+                this.showMessage('Message sent successfully! We\'ll get back to you soon.', 'success');
+                messageInput.value = '';
+                
+                // Reset button after 2 seconds
+                setTimeout(() => {
+                    this.setLoadingState(false, submitBtn, btnText, spinner);
+                }, 2000);
+                
+            } catch (error) {
+                console.error('Error sending message:', error);
+                this.showMessage('Failed to send message. Please try again.', 'error');
+                this.setLoadingState(false, submitBtn, btnText, spinner);
+            }
+        });
+    }
+
+    setLoadingState(loading, btn, btnText, spinner) {
+        btn.disabled = loading;
+        btnText.textContent = loading ? 'Sending...' : 'Send Message';
+        spinner.style.display = loading ? 'block' : 'none';
+    }
+
+    showMessage(text, type) {
+        const messageDiv = document.getElementById('formMessage');
+        if (!messageDiv) return;
+
+        messageDiv.textContent = text;
+        messageDiv.className = `form-message show ${type}`;
+        
+        // Auto-hide after 5 seconds
+        setTimeout(() => {
+            this.hideMessage();
+        }, 5000);
+    }
+
+    hideMessage() {
+        const messageDiv = document.getElementById('formMessage');
+        if (!messageDiv) return;
+        
+        messageDiv.classList.remove('show');
+    }
+
+    async simulateMessageSend(message) {
+        // Simulate API call delay
+        await new Promise(resolve => setTimeout(resolve, 1500));
+        
+        // In a real implementation, you would send the message here
+        console.log('Message to send:', message);
+        
+        // Simulate occasional failures for testing
+        if (Math.random() < 0.1) {
+            throw new Error('Simulated network error');
+        }
+    }
 }
 
-// Optimized scroll handler
-const optimizedScrollHandler = debounce(() => {
-  // Add any additional scroll-based functionality here
-}, 10)
-
-window.addEventListener("scroll", optimizedScrollHandler)
+// Initialize theme manager when DOM is loaded
+document.addEventListener('DOMContentLoaded', () => {
+    new ThemeManager();
+});
