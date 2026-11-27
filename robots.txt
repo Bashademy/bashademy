@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://bashademy.com/sitemap.xml
